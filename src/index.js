@@ -1,12 +1,67 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { Component } from "react"
+import ReactDOM from 'react-dom'
+import { BrowserRouter as Router, Route, Switch, withRouter } from "react-router-dom"
+import { TransitionGroup, CSSTransition } from "react-transition-group"
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import Nav from "./components/Nav"
+import Footer from "./components/Footer"
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import routes from "./Routes"
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// Adding icons for fontawesome
+
+library.add(fas, fab)
+
+class AnimatedRoutes extends Component {
+
+    render () {
+        const location = this.props.location
+        return (
+            <TransitionGroup component={null}>
+                <CSSTransition
+                    key={location.key}
+                    classNames="fadeIn"
+                    timeout={500}
+                >
+                    <Switch location={location}>
+                        { routes.map((routeObj) => {
+                            if (routeObj.isIndex) {
+                                return (
+                                    <Route exact path={routeObj.path}>
+                                        { routeObj.child }
+                                    </Route>
+                                )
+                            }
+                            return (
+                                <Route path={routeObj.path}>
+                                    { routeObj.child }
+                                </Route>
+                            )
+                        }) }
+                    </Switch>
+                </CSSTransition>
+            </TransitionGroup>
+        )
+    }
+
+}
+
+const MyRoutes = withRouter(AnimatedRoutes)
+
+class App extends Component {
+
+    render () {
+        return (
+            <Router>
+                <Nav />
+                <MyRoutes />
+                <Footer />
+            </Router>
+        )
+    }
+
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))

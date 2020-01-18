@@ -1,0 +1,137 @@
+@import "imports.scss";
+
+.resume {
+
+    .resume__experience, .resume__projects {
+
+    }
+
+    .resumeItem {
+        padding: .5rem 1rem;
+
+        .resumeItem__header {
+
+            .resumeItem__title {
+                font-size: 1.5rem;
+                letter-spacing: .1rem;
+                color: $black2;
+                margin: .5rem 0;
+            }
+    
+            .resumeItem__date {
+                font-size: 1rem;
+                color: $black4;
+                margin: .25rem 0;
+
+                @media screen and (min-width: $desktopSize) {
+                    text-align: right;
+                }
+            }
+
+            @media screen and (min-width: $desktopSize) {
+                display: flex;
+                margin: .5rem 0;
+
+                .resumeItem__title {
+                    margin: 0;
+                    flex: 3;
+                }
+
+                .resumeItem__date {
+                    flex: 1;
+                    margin: 0;
+                }
+
+            }
+
+        }
+
+        .resumeItem__expandButton {
+            cursor: pointer;
+            color: $dandelion4;
+            text-decoration: underline;
+            transition: color .25s ease;
+
+            &:hover { color: $dandelion3; }
+            &:active { color: $dandelion2; }
+        }
+
+        .resumeItem__body {
+            font-size: 1.25rem;
+            color: $black3;
+            line-height: 150%;
+            margin: .25rem 0;
+
+            .resumeItem__blurb {
+                margin-bottom: .25rem;
+            }
+
+            .resumeItem__description {
+                max-height: 0;
+                display: none;
+            }
+
+        }
+
+        &.expand-enter {
+            .resumeItem__body {
+                .resumeItem__description {
+                    display: block;
+                    opacity: 0;
+                }
+            }
+        }
+
+        &.expand-enter-active {
+            .resumeItem__body {
+                .resumeItem__description {
+                    display: block;
+                    transition: all .5s ease;
+                    max-height: 50rem;
+                }
+            }
+        }
+
+        &.expand-enter-done {
+            .resumeItem__body {
+                .resumeItem__description {
+                    display: block;
+                    opacity: 1;
+                    transition: all .3s ease;
+                    max-height: 50rem;
+                }
+            }
+        }
+
+        &.expand-exit {
+            .resumeItem__body {
+                .resumeItem__description {
+                    display: block;
+                    opacity: 1;
+                    max-height: 50rem;
+                }
+            }
+        }
+
+        &.expand-exit-active {
+            .resumeItem__body {
+                .resumeItem__description {
+                    display: block;
+                    opacity: 0;
+                    max-height: 0;
+                    transition: all .5s ease;
+                }
+            }
+        }
+
+        &.expand-done {
+            .resumeItem__body {
+                .resumeItem__description {
+                    display: none;
+                }
+            }
+        }
+
+    }
+
+}
