@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import { HashLoader } from "react-spinners"
 
 import { getFoodPosts } from "../Firebase"
 import "../styles/Food.scss"
@@ -22,25 +23,30 @@ function PostThumb (props) {
 function FoodPostList (props) {
 
     const [ posts, setPosts ] = useState([])
+    const [ loaded, setLoaded ] = useState(false)
     
     // Equivalent to componentDidMount
     useEffect(() => {
         getFoodPosts()
         .then(result => {
             setPosts(result)
+            setLoaded(true)
         })
         // Get the posts from the api
     }, [])
 
+    if (!loaded) {
+        return <HashLoader css={{ margin: "auto" }} size={60} loading={true} color="#AA7639" />
+    } 
     return (
         <div className="foodPosts">
-            {posts.map((post, i) => {
-                return <PostThumb 
-                        title={post.title} 
-                        thumbnail={post.thumbnail} 
-                        id={post.id}
-                        />
-            })}
+            { posts.map((post, i) => (
+            <PostThumb 
+                    title={post.title} 
+                    thumbnail={post.thumbnail} 
+                    id={post.id}
+                />
+            )) }
         </div>
     )
 

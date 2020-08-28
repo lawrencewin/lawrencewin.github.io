@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { PuffLoader } from "react-spinners"
 
 import { getFoodPostById} from "../Firebase"
 import "../styles/Food.scss"
@@ -69,16 +70,19 @@ function parseContent (content) {
 function FoodPost () {
     const { id } = useParams()
     const [ post, setPost ] = useState(null)
+    const [ loaded, setLoaded ] = useState(false)
 
     useEffect( () => {
         window.scrollTo(0, 0)
         getFoodPostById(id)
         .then(result => {
             setPost(result)
+            setLoaded(true)
         })
     }, [id])
 
-    if (post === null) return null
+    if (!loaded) 
+        return <PuffLoader loading={true} color="#28546C" size={60} css={{ margin: "auto" }} />
 
     return (
         <div className="body">

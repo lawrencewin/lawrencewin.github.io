@@ -16,7 +16,7 @@ class RouteObject {
 const routes = [
     new RouteObject("/", "Home", <Home />, "black", true),
     new RouteObject("/projects", "Projects", <Projects />, "red"),
-    //new RouteObject("/food", "My Food", <Food />, "yellow")
+    new RouteObject("/food", "My Food", <Food />, "yellow")
 ]
 
 export default routes

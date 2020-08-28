@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import { BounceLoader } from "react-spinners"
 
 import { getResumeItems } from "../Firebase.js"
 import "../styles/Resume.scss"
@@ -129,13 +130,15 @@ class Resume extends Component {
             experiences: [],
             projects: [],
             organizations: [], 
-            education: []
+            education: [],
+            loaded: false
         }
     }
 
     async componentDidMount () {
         const items = await getResumeItems()
         this.setState({
+            loaded: true,
             experiences: items.filter(item => item.type === "experience").sort((a, b) => b.start - a.start),
             projects: items.filter(item => item.type === "project").sort((a, b) => b.date - a.date),
             organizations: items.filter(item => item.type === "organization").sort((a, b) => b.start - a.start),
@@ -144,7 +147,9 @@ class Resume extends Component {
     }
 
     render () {
-        const { experiences, projects, organizations, education } = this.state
+        const { experiences, projects, organizations, education, loaded } = this.state
+        if (!loaded)
+            return <BounceLoader loading={true} size={80} color="#AA5239" css={{ margin: "auto" }} />
         return (
             <div className="resume">
                 { education.length > 0 ? (<div className="resume__education">
