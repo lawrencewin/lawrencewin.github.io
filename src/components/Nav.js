@@ -50,7 +50,12 @@ class Nav extends Component {
                     </div>
                     <div className={ expanded ? "nav__options expanded" : "nav__options"}>
                         {routes.map((routeObj, i) => {
-                            return <Link key={i} to={routeObj.path} onClick={() => this.handleLinkClick(routeObj)}>{routeObj.name}</Link>
+                            if (routeObj.type === "internal")
+                                return <Link key={i} to={routeObj.path} onClick={() => this.handleLinkClick(routeObj)}>{routeObj.name}</Link>
+                            else if (routeObj.type === "external")
+                                return <a key={i} href={routeObj.url} rel="noopener noreferrer" target="_blank">{routeObj.name}</a>
+                            else
+                                return null
                         })}
                     </div>
                 </div>
